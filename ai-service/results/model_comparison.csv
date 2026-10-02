@@ -1,0 +1,6 @@
+Model,Test Accuracy,Test Accuracy (%)
+CNN Baseline,0.8206,82.06
+DenseNet121 Transfer Learning,0.8781,87.81
+DenseNet121 Fine-Tuned,0.9013,90.13
+ResNet50 Fine-Tuned,0.7425,74.25
+EfficientNetB0 Fine-Tuned,0.8431,84.31

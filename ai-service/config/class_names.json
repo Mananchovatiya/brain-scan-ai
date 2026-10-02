@@ -1,0 +1,9 @@
+{
+    "class_names": [
+        "glioma",
+        "meningioma",
+        "notumor",
+        "pituitary"
+    ],
+    "num_classes": 4
+}

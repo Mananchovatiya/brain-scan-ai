@@ -1,0 +1,19 @@
+{
+    "image_size": [
+        224,
+        224
+    ],
+    "channels": 3,
+    "color_mode": "rgb",
+    "rescaling": "1/255",
+    "input_range": [
+        0,
+        1
+    ],
+    "model_input_shape": [
+        224,
+        224,
+        3
+    ],
+    "batch_dimension": true
+}

@@ -1,0 +1,100 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #34745b;
+  --color-deep: #173c31;
+  --color-page: #f3f6f2;
+  --color-soft: #edf4ee;
+  --color-line: #e3eae4;
+  --color-ink: #253630;
+  --color-muted: #78877f;
+  --color-danger: #a4483f;
+  --font-sans: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+  --font-display: Georgia, "Times New Roman", serif;
+}
+
+@layer base {
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html,
+  body,
+  #root {
+    min-width: 320px;
+    min-height: 100%;
+    margin: 0;
+  }
+
+  body {
+    min-height: 100vh;
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+    background: var(--color-page);
+    font-size: 15px;
+    line-height: 1.55;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+  }
+
+  :focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--color-primary) 50%, white);
+    outline-offset: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .mobile-menu {
+    display: grid;
+    width: 30px;
+    height: auto;
+    place-items: center;
+    gap: 4px;
+    border: 1px solid var(--color-line);
+    border-radius: 8px;
+    background: white;
+    color: var(--color-deep);
+  }
+
+  .mobile-menu span {
+    display: block;
+    width: 17px;
+    height: 2px;
+    border-radius: 2px;
+    background: currentColor;
+  }
+}
+
+@media (max-width: 700px) {
+  .welcome-actions {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .welcome-actions .button {
+    min-width: 0;
+    flex: 1 1 150px;
+  }
+}

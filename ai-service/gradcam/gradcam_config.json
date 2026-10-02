@@ -1,0 +1,28 @@
+{
+    "method": "Grad-CAM",
+    "model": "final_brain_tumor_model.keras",
+    "backbone": "DenseNet121",
+    "target_layer": "conv5_block16_2_conv",
+    "target_layer_type": "Conv2D",
+    "feature_map_shape": [
+        7,
+        7,
+        32
+    ],
+    "input_size": [
+        224,
+        224,
+        3
+    ],
+    "heatmap_size": [
+        7,
+        7
+    ],
+    "display_heatmap_size": [
+        224,
+        224
+    ],
+    "normalization": "0-1",
+    "positive_activations_only": true,
+    "overlay_alpha": 0.45
+}

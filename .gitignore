@@ -1,0 +1,40 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Build output
+dist/
+**/dist/
+
+# Local Python environments and caches
+.venv/
+**/.venv/
+__pycache__/
+**/__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+
+# Local environment files; keep safe examples tracked
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
+
+# Model artifacts and generated training output
+*.keras
+*.h5
+*.hdf5
+*.weights
+ai-service/logs/
+ai-service/outputs/
+ai-service/tmp/
+
+# Logs and OS/editor files
+*.log
+npm-debug.log*
+.DS_Store
+.idea/
+.vscode/
