@@ -25,7 +25,7 @@ function publicUser(user) {
 function issueSession(user, response) {
   const token = signAccessToken(user);
   setAuthCookie(response, token);
-  return { token, user: publicUser(user) };
+  return { user: publicUser(user) };
 }
 
 export async function signUp(request, response) {

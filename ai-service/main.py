@@ -9,6 +9,9 @@ from typing import Annotated
 from urllib.parse import urlsplit
 
 import httpx
+import matplotlib
+matplotlib.use("Agg")
+from matplotlib import colormaps
 import numpy as np
 import tensorflow as tf
 from fastapi import FastAPI, Header, HTTPException
@@ -146,12 +149,9 @@ def make_gradcam_heatmap(image_batch: np.ndarray, state) -> np.ndarray:
 
 
 def encode_gradcam_overlay(display_image: Image.Image, heatmap: np.ndarray, alpha: float) -> str:
-    gray = np.clip(heatmap * 255, 0, 255).astype(np.uint8)
-    red = np.clip(1.5 - np.abs(4 * gray / 255 - 3), 0, 1)
-    green = np.clip(1.5 - np.abs(4 * gray / 255 - 2), 0, 1)
-    blue = np.clip(1.5 - np.abs(4 * gray / 255 - 1), 0, 1)
-    color_map = np.stack([red, green, blue], axis=-1)
-    color_map = (color_map * 255).astype(np.uint8)
+    normalized_heatmap = np.clip(heatmap, 0.0, 1.0)
+    # Match the AIML notebook's jet colormap and transparent overlay rendering.
+    color_map = (colormaps["jet"](normalized_heatmap)[..., :3] * 255).astype(np.uint8)
     heat_image = Image.fromarray(color_map, mode="RGB").resize(display_image.size, Image.Resampling.BILINEAR)
     overlay = Image.blend(display_image.convert("RGB"), heat_image, float(alpha))
     buffer = io.BytesIO()

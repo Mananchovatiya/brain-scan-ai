@@ -33,6 +33,6 @@ Set `AI_SERVICE_URL=http://localhost:8000/analyze` in `conversion/server/.env`. 
 
 - The model is not downloaded by this service; keep the `.keras` file at the configured path.
 - Inference uses the provided 224×224 RGB, 1/255 input preprocessing and the class order in `config/class_names.json`.
-- Grad-CAM uses `conv5_block16_2_conv` as configured. Its overlay is returned as a `data:image/png;base64,...` URL in the response.
+- Grad-CAM uses `conv5_block16_2_conv` as configured. The overlay renderer uses Matplotlib's `jet` colormap and the configured 0.45 alpha, matching the AIML notebook; it is returned as a `data:image/png;base64,...` URL in the response.
 - Input images are kept in memory and not saved by this app. The service only fetches HTTPS URLs from `api.cloudinary.com` or `res.cloudinary.com`.
 - Use de-identified development images only. This academic prototype does not provide clinically validated diagnosis.

@@ -66,8 +66,8 @@
 @media (max-width: 900px) {
   .mobile-menu {
     display: grid;
-    width: 30px;
-    height: auto;
+    width: 36px;
+    height: 36px;
     place-items: center;
     gap: 4px;
     border: 1px solid var(--color-line);
@@ -96,5 +96,362 @@
   .welcome-actions .button {
     min-width: 0;
     flex: 1 1 150px;
+  }
+}
+
+.mri-viewer-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+  background: rgb(18 35 29 / 68%);
+  backdrop-filter: blur(4px);
+}
+
+.mri-viewer-dialog {
+  display: flex;
+  width: min(100%, 1040px);
+  max-height: min(92dvh, 900px);
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--color-line);
+  border-radius: 16px;
+  background: white;
+  box-shadow: 0 24px 80px rgb(7 25 17 / 35%);
+}
+
+.mri-viewer-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid var(--color-line);
+  padding: 18px 20px;
+}
+
+.mri-viewer-kicker,
+.mri-tool-label {
+  color: var(--color-muted);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.mri-viewer-header h2 {
+  margin: 4px 0 2px;
+  color: var(--color-ink);
+  font-size: 18px;
+  font-weight: 650;
+}
+
+.mri-viewer-header p {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 12px;
+}
+
+.mri-viewer-close {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  flex: none;
+  place-items: center;
+  border: 1px solid var(--color-line);
+  border-radius: 9px;
+  background: white;
+  color: var(--color-muted);
+  font-size: 24px;
+  line-height: 1;
+}
+
+.mri-viewer-close:hover,
+.mri-tool-group button:hover:not(:disabled),
+.mri-reset-button:hover {
+  border-color: var(--color-primary);
+  background: var(--color-soft);
+  color: var(--color-deep);
+}
+
+.mri-viewer-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 18px;
+  border-bottom: 1px solid var(--color-line);
+  padding: 11px 16px;
+}
+
+.mri-tool-group {
+  display: flex;
+  min-height: 40px;
+  align-items: center;
+  gap: 6px;
+}
+
+.mri-tool-label {
+  margin-right: 4px;
+  letter-spacing: .06em;
+}
+
+.mri-tool-group button,
+.mri-reset-button {
+  display: inline-grid;
+  min-width: 40px;
+  min-height: 40px;
+  place-items: center;
+  border: 1px solid var(--color-line);
+  border-radius: 8px;
+  background: white;
+  color: var(--color-ink);
+  font-size: 14px;
+  font-weight: 600;
+  transition: background-color .16s ease, border-color .16s ease, color .16s ease;
+}
+
+.mri-tool-group button:disabled {
+  cursor: not-allowed;
+  opacity: .4;
+}
+
+.mri-tool-group button.is-selected {
+  border-color: var(--color-primary);
+  background: var(--color-soft);
+  color: var(--color-deep);
+}
+
+.mri-zoom-value {
+  min-width: 48px;
+  color: var(--color-muted);
+  font-size: 11px;
+  text-align: center;
+}
+
+.mri-reset-button {
+  margin-left: auto;
+  padding: 0 12px;
+  color: var(--color-primary);
+  font-size: 12px;
+}
+
+.mri-viewer-canvas {
+  position: relative;
+  display: grid;
+  min-height: 280px;
+  flex: 1;
+  place-items: center;
+  overflow: hidden;
+  background: radial-gradient(ellipse at center, #242b2a 0, #111615 55%, #090c0b 100%);
+}
+
+.mri-viewer-image-position {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  min-height: inherit;
+  place-items: center;
+  transition: transform .18s ease-out;
+}
+
+.mri-viewer-image-position[data-zoom="1"] {
+  transform: translate(0, 0) scale(1);
+}
+
+.mri-viewer-image-position[data-zoom="2"] {
+  transform: translate(0, 0) scale(1.5);
+}
+
+.mri-viewer-image-position[data-zoom="3"] {
+  transform: translate(0, 0) scale(2);
+}
+
+.mri-viewer-image-position[data-zoom="4"] {
+  transform: translate(0, 0) scale(2.5);
+}
+
+.mri-viewer-image-position[data-zoom="2"][data-pan-x="-1"][data-pan-y="-1"] {
+  transform: translate(16%, 16%) scale(1.5);
+}
+
+.mri-viewer-image-position[data-zoom="2"][data-pan-x="-1"][data-pan-y="0"] {
+  transform: translate(16%, 0) scale(1.5);
+}
+
+.mri-viewer-image-position[data-zoom="2"][data-pan-x="-1"][data-pan-y="1"] {
+  transform: translate(16%, -16%) scale(1.5);
+}
+
+.mri-viewer-image-position[data-zoom="2"][data-pan-x="0"][data-pan-y="-1"] {
+  transform: translate(0, 16%) scale(1.5);
+}
+
+.mri-viewer-image-position[data-zoom="2"][data-pan-x="0"][data-pan-y="1"] {
+  transform: translate(0, -16%) scale(1.5);
+}
+
+.mri-viewer-image-position[data-zoom="2"][data-pan-x="1"][data-pan-y="-1"] {
+  transform: translate(-16%, 16%) scale(1.5);
+}
+
+.mri-viewer-image-position[data-zoom="2"][data-pan-x="1"][data-pan-y="0"] {
+  transform: translate(-16%, 0) scale(1.5);
+}
+
+.mri-viewer-image-position[data-zoom="2"][data-pan-x="1"][data-pan-y="1"] {
+  transform: translate(-16%, -16%) scale(1.5);
+}
+
+.mri-viewer-image-position[data-zoom="3"][data-pan-x="-1"][data-pan-y="-1"] {
+  transform: translate(22%, 22%) scale(2);
+}
+
+.mri-viewer-image-position[data-zoom="3"][data-pan-x="-1"][data-pan-y="0"] {
+  transform: translate(22%, 0) scale(2);
+}
+
+.mri-viewer-image-position[data-zoom="3"][data-pan-x="-1"][data-pan-y="1"] {
+  transform: translate(22%, -22%) scale(2);
+}
+
+.mri-viewer-image-position[data-zoom="3"][data-pan-x="0"][data-pan-y="-1"] {
+  transform: translate(0, 22%) scale(2);
+}
+
+.mri-viewer-image-position[data-zoom="3"][data-pan-x="0"][data-pan-y="1"] {
+  transform: translate(0, -22%) scale(2);
+}
+
+.mri-viewer-image-position[data-zoom="3"][data-pan-x="1"][data-pan-y="-1"] {
+  transform: translate(-22%, 22%) scale(2);
+}
+
+.mri-viewer-image-position[data-zoom="3"][data-pan-x="1"][data-pan-y="0"] {
+  transform: translate(-22%, 0) scale(2);
+}
+
+.mri-viewer-image-position[data-zoom="3"][data-pan-x="1"][data-pan-y="1"] {
+  transform: translate(-22%, -22%) scale(2);
+}
+
+.mri-viewer-image-position[data-zoom="4"][data-pan-x="-1"][data-pan-y="-1"] {
+  transform: translate(27%, 27%) scale(2.5);
+}
+
+.mri-viewer-image-position[data-zoom="4"][data-pan-x="-1"][data-pan-y="0"] {
+  transform: translate(27%, 0) scale(2.5);
+}
+
+.mri-viewer-image-position[data-zoom="4"][data-pan-x="-1"][data-pan-y="1"] {
+  transform: translate(27%, -27%) scale(2.5);
+}
+
+.mri-viewer-image-position[data-zoom="4"][data-pan-x="0"][data-pan-y="-1"] {
+  transform: translate(0, 27%) scale(2.5);
+}
+
+.mri-viewer-image-position[data-zoom="4"][data-pan-x="0"][data-pan-y="1"] {
+  transform: translate(0, -27%) scale(2.5);
+}
+
+.mri-viewer-image-position[data-zoom="4"][data-pan-x="1"][data-pan-y="-1"] {
+  transform: translate(-27%, 27%) scale(2.5);
+}
+
+.mri-viewer-image-position[data-zoom="4"][data-pan-x="1"][data-pan-y="0"] {
+  transform: translate(-27%, 0) scale(2.5);
+}
+
+.mri-viewer-image-position[data-zoom="4"][data-pan-x="1"][data-pan-y="1"] {
+  transform: translate(-27%, -27%) scale(2.5);
+}
+
+.mri-viewer-image {
+  display: block;
+  max-width: 100%;
+  max-height: min(62dvh, 650px);
+  object-fit: contain;
+  image-rendering: auto;
+  transition: filter .16s ease;
+  user-select: none;
+}
+
+.mri-viewer-image.contrast-low {
+  filter: contrast(.78) brightness(1.08);
+}
+
+.mri-viewer-image.contrast-high {
+  filter: contrast(1.3) brightness(.97);
+}
+
+.mri-viewer-message {
+  position: absolute;
+  inset: auto 16px 16px;
+  width: fit-content;
+  max-width: calc(100% - 32px);
+  margin: auto;
+  border: 1px solid rgb(255 255 255 / 18%);
+  border-radius: 8px;
+  background: rgb(10 16 14 / 88%);
+  padding: 9px 12px;
+  color: white;
+  font-size: 12px;
+  text-align: center;
+}
+
+.mri-viewer-error {
+  background: #6f2925;
+}
+
+.mri-viewer-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 16px;
+  border-top: 1px solid var(--color-line);
+  padding: 10px 16px;
+  color: var(--color-muted);
+  font-size: 10px;
+}
+
+@media (max-width: 600px) {
+  .mri-viewer-dialog {
+    max-height: 94dvh;
+    border-radius: 12px;
+  }
+
+  .mri-viewer-header {
+    padding: 13px 14px;
+  }
+
+  .mri-viewer-toolbar {
+    gap: 8px;
+    padding: 9px;
+  }
+
+  .mri-tool-group {
+    gap: 4px;
+  }
+
+  .mri-tool-label {
+    font-size: 9px;
+  }
+
+  .mri-tool-group button {
+    min-width: 36px;
+    min-height: 40px;
+  }
+
+  .mri-reset-button {
+    min-height: 40px;
+  }
+
+  .mri-pan-controls {
+    flex-wrap: wrap;
+  }
+
+  .mri-viewer-canvas {
+    min-height: 240px;
   }
 }

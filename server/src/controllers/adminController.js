@@ -53,22 +53,20 @@ export async function listDoctors(request, response) {
   const scanCounts = counts(scanGroups);
   const reportCounts = counts(reportGroups);
 
-  return response.json({
-    doctors: doctors.map((doctor) => ({
-      id: String(doctor._id),
-      name: doctor.name,
-      email: doctor.email,
-      phone: doctor.phone ?? "",
-      registrationNumber: doctor.medicalRegistrationNumber ?? "",
-      specialization: doctor.specialization ?? "",
-      clinic: doctor.clinic ?? "",
-      isActive: doctor.isActive !== false,
-      createdAt: doctor.createdAt,
-      patientCount: patientCounts.get(String(doctor._id)) ?? 0,
-      scanCount: scanCounts.get(String(doctor._id)) ?? 0,
-      reportCount: reportCounts.get(String(doctor._id)) ?? 0,
-    }))
-  });
+  return response.json({ doctors: doctors.map((doctor) => ({
+    id: String(doctor._id),
+    name: doctor.name,
+    email: doctor.email,
+    phone: doctor.phone ?? "",
+    registrationNumber: doctor.medicalRegistrationNumber ?? "",
+    specialization: doctor.specialization ?? "",
+    clinic: doctor.clinic ?? "",
+    isActive: doctor.isActive !== false,
+    createdAt: doctor.createdAt,
+    patientCount: patientCounts.get(String(doctor._id)) ?? 0,
+    scanCount: scanCounts.get(String(doctor._id)) ?? 0,
+    reportCount: reportCounts.get(String(doctor._id)) ?? 0,
+  })) });
 }
 
 export async function updateDoctorStatus(request, response) {
@@ -103,20 +101,18 @@ export async function listAllPatients(request, response) {
   const scanGroups = await Scan.aggregate([{ $group: { _id: "$patient", count: { $sum: 1 } } }]);
   const scansByPatient = new Map(scanGroups.map((group) => [String(group._id), group.count]));
 
-  return response.json({
-    patients: patients.map((patient) => {
-      const doctor = doctorById.get(patient.createdBy);
-      return {
-        id: patient.patientId,
-        name: patient.name,
-        gender: patient.gender,
-        doctorName: doctor?.name ?? "Account unavailable",
-        doctorEmail: doctor?.email ?? "",
-        examinations: scansByPatient.get(String(patient._id)) ?? 0,
-        createdAt: patient.createdAt,
-      };
-    })
-  });
+  return response.json({ patients: patients.map((patient) => {
+    const doctor = doctorById.get(patient.createdBy);
+    return {
+      id: patient.patientId,
+      name: patient.name,
+      gender: patient.gender,
+      doctorName: doctor?.name ?? "Account unavailable",
+      doctorEmail: doctor?.email ?? "",
+      examinations: scansByPatient.get(String(patient._id)) ?? 0,
+      createdAt: patient.createdAt,
+    };
+  }) });
 }
 
 export async function listAllScans(request, response) {
@@ -129,25 +125,23 @@ export async function listAllScans(request, response) {
   const doctors = await User.find({ _id: { $in: doctorIds } }).select("name email").lean();
   const doctorById = new Map(doctors.map((doctor) => [String(doctor._id), doctor]));
 
-  return response.json({
-    scans: scans.flatMap((scan) => {
-      if (!scan.patient) return [];
-      const doctor = doctorById.get(scan.createdBy);
-      return [{
-        scanId: scan.scanId,
-        patientId: scan.patient.patientId,
-        patientName: scan.patient.name,
-        doctorName: doctor?.name ?? "Account unavailable",
-        doctorEmail: doctor?.email ?? "",
-        format: scan.format,
-        fileSize: scan.fileSize,
-        status: scan.status,
-        result: scan.analysis?.predictedClass ?? null,
-        confidence: scan.analysis?.confidence ?? null,
-        createdAt: scan.createdAt,
-      }];
-    })
-  });
+  return response.json({ scans: scans.flatMap((scan) => {
+    if (!scan.patient) return [];
+    const doctor = doctorById.get(scan.createdBy);
+    return [{
+      scanId: scan.scanId,
+      patientId: scan.patient.patientId,
+      patientName: scan.patient.name,
+      doctorName: doctor?.name ?? "Account unavailable",
+      doctorEmail: doctor?.email ?? "",
+      format: scan.format,
+      fileSize: scan.fileSize,
+      status: scan.status,
+      result: scan.analysis?.predictedClass ?? null,
+      confidence: scan.analysis?.confidence ?? null,
+      createdAt: scan.createdAt,
+    }];
+  }) });
 }
 
 export async function listAllReports(request, response) {
@@ -157,12 +151,10 @@ export async function listAllReports(request, response) {
     .sort({ updatedAt: -1 })
     .limit(500)
     .lean();
-  return response.json({
-    reports: reports.flatMap((report) => {
-      if (!report.patient || !report.scan) return [];
-      return [{ id: report.reportId, patientId: report.patient.patientId, scanId: report.scan.scanId, doctorName: report.doctorName, status: report.status, updatedAt: report.updatedAt }];
-    })
-  });
+  return response.json({ reports: reports.flatMap((report) => {
+    if (!report.patient || !report.scan) return [];
+    return [{ id: report.reportId, patientId: report.patient.patientId, scanId: report.scan.scanId, doctorName: report.doctorName, status: report.status, updatedAt: report.updatedAt }];
+  }) });
 }
 
 export async function listAuditLogs(request, response) {
@@ -171,15 +163,13 @@ export async function listAuditLogs(request, response) {
     .sort({ createdAt: -1 })
     .limit(100)
     .lean();
-  return response.json({
-    entries: entries.map((entry) => ({
-      id: String(entry._id),
-      actorId: entry.actorId,
-      actorName: entry.actorName,
-      action: entry.action,
-      entityType: entry.entityType,
-      entityId: entry.entityId,
-      createdAt: entry.createdAt,
-    }))
-  });
+  return response.json({ entries: entries.map((entry) => ({
+    id: String(entry._id),
+    actorId: entry.actorId,
+    actorName: entry.actorName,
+    action: entry.action,
+    entityType: entry.entityType,
+    entityId: entry.entityId,
+    createdAt: entry.createdAt,
+  })) });
 }

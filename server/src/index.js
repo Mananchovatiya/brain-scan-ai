@@ -25,8 +25,16 @@ try {
 
   process.on("SIGINT", shutdown);
   process.on("SIGTERM", shutdown);
-} catch {
-  console.error("Server startup failed. Check MongoDB configuration and network access.");
+} catch (error) {
+  const message = typeof error?.message === "string" ? error.message : "Unknown startup error";
+  const safeMessage = process.env.MONGODB_URI
+    ? message.replaceAll(process.env.MONGODB_URI, "[MONGODB_URI]")
+    : message;
+  console.error("Server startup failed", {
+    name: error?.name || "Error",
+    code: error?.code || null,
+    message: safeMessage,
+  });
   await disconnectDatabase();
   process.exit(1);
 }
